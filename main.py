@@ -1,78 +1,124 @@
-print("DEFUSE")
+import sys
+import os
+
+from timer import Timer
+from utils import move_to_row_col, clear_line, flush
+from wires import play_wires
 
 
-print("""
-╔══════════════════════════════════════════════════════════╗
-║                       🔌 WIRES                           ║
-╠══════════════════════════════════════════════════════════╣
-║ RULE 1                                                   ║
-║ If there are exactly two red wires:                      ║
-║   • If they are adjacent, cut the wire immediately       ║
-║     after the second red wire.                           ║
-║   • Otherwise, if position 4 is not red, cut it.         ║
-║   • Otherwise, move to the next rule.                    ║
-║                                                          ║
-║ RULE 2                                                   ║
-║ If there are more blue wires than red wires:             ║
-║   • If the first blue wire appears before the first      ║
-║     red wire, cut the wire immediately after the last    ║
-║     blue wire.                                           ║
-║   • Otherwise, cut the wire immediately before the       ║
-║     first blue wire.                                     ║
-║                                                          ║
-║ RULE 3                                                   ║
-║ If there are exactly two yellow wires:                   ║
-║   • If exactly one wire separates them:                  ║
-║       - If position 3 is neither yellow nor green,       ║
-║         cut it.                                          ║
-║       - Otherwise, cut the first wire if it is blue.     ║
-║   • Otherwise, move to the next rule.                    ║
-║                                                          ║
-║ RULE 4                                                   ║
-║ If there are more green wires than yellow wires:         ║
-║   • Find the first and last green wires.                 ║
-║   • Count the wires between them.                        ║
-║   • If there are none, move to the next rule.            ║
-║   • Otherwise:                                           ║
-║       - If the number is even, cut the wire immediately  ║
-║         before the first green wire.                     ║
-║       - If the number is odd, cut the wire immediately   ║
-║         after the last green wire.                       ║
-║                                                          ║
-║ RULE 5                                                   ║
-║ If there is exactly one blue wire and one yellow wire:   ║
-║   • If blue is before yellow, cut the wire immediately   ║
-║     after yellow.                                        ║
-║   • If yellow is before blue, cut the wire immediately   ║
-║     before blue.                                         ║
-║                                                          ║
-║ RULE 6                                                   ║
-║ If there are exactly three wires of the same color:      ║
-║   • Find the middle wire among the three.                ║
-║   • If its position is odd:                              ║
-║       - If there is a white wire, cut the first white    ║
-║         wire.                                            ║
-║       - Otherwise, move to the next rule.                ║
-║   • If its position is even, cut the middle wire among   ║
-║     the three.                                           ║
-║                                                          ║
-║ FINAL RULE                                               ║
-║ If no wire has been cut:                                 ║
-║   • If there is no red wire or no green wire, cut the    ║
-║     last wire.                                           ║
-║   • Otherwise, calculate:                                ║
-║       first red position + last green position           ║
-║                                                          ║
-║     If the result is even:                               ║
-║       - If there is a blue wire, cut the first green     ║
-║         wire.                                            ║
-║       - Otherwise, cut the first red wire.               ║
-║                                                          ║
-║     If the result is odd:                                ║
-║       - If there is a white wire, cut the first white    ║
-║         wire.                                            ║
-║       - Otherwise, if a wire exists before the last      ║
-║         green wire, cut it.                              ║
-║       - Otherwise, cut the last wire.                    ║
-╚══════════════════════════════════════════════════════════╝
-""")
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+def show_menu(fragments):
+    move_to_row_col(3, 1)
+    clear_line()
+    sys.stdout.write("  FAILSAFE - Bomb Defusal\n")
+    move_to_row_col(4, 1)
+    clear_line()
+    sys.stdout.write("  -----------------------\n")
+
+    labels = [
+        ("1", "Wires",       "WIRES"),
+        ("2", "Binary Core", "BINARY"),
+        ("3", "Code Lock",   "CODE"),
+    ]
+
+    for i, (key, name, tag) in enumerate(labels):
+        row = 5 + i
+        status = f" [{fragments[tag]}]" if fragments[tag] else ""
+        move_to_row_col(row, 1)
+        clear_line()
+        sys.stdout.write(f"  {key}. {name}{status}\n")
+
+    move_to_row_col(8, 1)
+    clear_line()
+    all_done = all(fragments[t] for t in ["WIRES", "BINARY", "CODE"])
+    if all_done:
+        sys.stdout.write("  4. Enter final password\n")
+    else:
+        sys.stdout.write("  4. Enter final password (need all fragments)\n")
+
+    move_to_row_col(9, 1)
+    clear_line()
+    sys.stdout.write("  5. Quit\n")
+    move_to_row_col(10, 1)
+    clear_line()
+    sys.stdout.write("  > ")
+    flush()
+
+
+def play_module_wires(timer, fragments):
+    timer.resume()
+    clear_screen()
+    timer._display()
+    result = play_wires(timer)
+    timer.pause()
+    if result is not None:
+        fragments["WIRES"] = result
+    clear_screen()
+    timer._display()
+
+
+def main():
+    timer = Timer(900)
+    fragments = {"WIRES": None, "BINARY": None, "CODE": None}
+    clear_screen()
+    timer.start()
+    timer._display()
+
+    while True:
+        show_menu(fragments)
+        try:
+            choice = input().strip()
+        except (EOFError, KeyboardInterrupt):
+            break
+
+        if choice == "1":
+            timer.pause()
+            clear_screen()
+            timer._display()
+            play_module_wires(timer, fragments)
+        elif choice == "4":
+            timer.pause()
+            clear_screen()
+            timer._display()
+            all_done = all(fragments[t] for t in ["WIRES", "BINARY", "CODE"])
+            move_to_row_col(3, 1)
+            clear_line()
+            sys.stdout.write("  FINAL PASSWORD\n")
+            move_to_row_col(4, 1)
+            clear_line()
+            if all_done:
+                password = fragments["WIRES"] + fragments["BINARY"] + fragments["CODE"]
+                sys.stdout.write(f"  Password: {password}\n")
+                move_to_row_col(5, 1)
+                clear_line()
+                sys.stdout.write("  (Not yet implemented)\n")
+            else:
+                sys.stdout.write("  You need all 3 fragments first.\n")
+                move_to_row_col(5, 1)
+                clear_line()
+                sys.stdout.write(f"  Wires:  {'??' if not fragments['WIRES'] else fragments['WIRES']}\n")
+                move_to_row_col(6, 1)
+                clear_line()
+                sys.stdout.write(f"  Binary: {'??' if not fragments['BINARY'] else fragments['BINARY']}\n")
+                move_to_row_col(7, 1)
+                clear_line()
+                sys.stdout.write(f"  Code:   {'??' if not fragments['CODE'] else fragments['CODE']}\n")
+            move_to_row_col(9, 1)
+            clear_line()
+            sys.stdout.write("  Press Enter to return...\n")
+            flush()
+            input()
+            clear_screen()
+            timer._display()
+        elif choice == "5":
+            timer.stop()
+            clear_screen()
+            print("  Bomb detonated. Goodbye.\n")
+            break
+
+
+if __name__ == "__main__":
+    main()
