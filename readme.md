@@ -103,23 +103,25 @@ The player must determine the correct wire to cut.
 
 The rules are evaluated **from top to bottom**.
 
-### Rule 1
+### Example of rules
+
+#### Rule 1
 
 If there are **exactly two red wires**, cut the wire immediately after the second red wire.
 
 If the second red wire is the last wire, this rule is invalid.
 
-### Rule 2
+#### Rule 2
 
 If there is **exactly one yellow wire**, cut the wire immediately before it.
 
 If the yellow wire is first, this rule is invalid.
 
-### Rule 3
+#### Rule 3
 
 If there are more blue wires than green wires, cut the **last blue wire**.
 
-### Rule 4
+#### Rule 4
 
 If none of the previous rules produced a valid wire, cut the **first wire**.
 
