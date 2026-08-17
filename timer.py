@@ -17,7 +17,7 @@ class Timer:
     def start(self):
         self._running = True
         self._stop_event.clear()
-        self._pause_event.set()
+        self._pause_event.clear()
         self._thread.start()
 
     def pause(self):

@@ -150,6 +150,7 @@ def play_wires(timer):
     wires = generate_wires()
     correct = solve(wires)
     fragment = generate_fragment()
+    wrong_count = 0
 
     print("""
     ╔══════════════════════════════════════════════════════════╗
@@ -244,7 +245,18 @@ def play_wires(timer):
                 input("  Press Enter to continue...")
                 return fragment
             else:
-                print(f"  WRONG! Wire {choice} was not the one. Try again or 'q' to quit.\n")
+                wrong_count += 1
+                if wrong_count >= 2:
+                    print("  2 wrong answers! Regenerating level...\n")
+                    wires = generate_wires()
+                    correct = solve(wires)
+                    fragment = generate_fragment()
+                    wrong_count = 0
+                    for i, w in enumerate(wires):
+                        print(f"    {i + 1}. {w}")
+                    print()
+                else:
+                    print(f"  WRONG! ({wrong_count}/2) Try again or 'q' to quit.\n")
                 continue
 
         print("  Invalid input. Enter 1-5 or 'q'.\n")
