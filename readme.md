@@ -260,41 +260,29 @@ The challenge is generated randomly, so the binary number and key change each ti
 
 ## Objective
 
-Find a secret **4-digit code** using logical constraints.
+Find a secret **4-digit code** using logical clues.
 
-Every digit is different.
+The code is generated randomly each game.
 
-The player receives a set of clues.
+The player receives a set of dynamically generated clues.
 
-## Rules
+## How it works
 
-The generated code must satisfy all of the following:
+1. The program generates a random 4-digit secret code.
+2. It generates 5-7 logical clues compatible with that code.
+3. It verifies that only **one** combination (0000-9990) satisfies all clues.
+4. The player reads the clues and deduces the code.
 
-### Rule 1
+## Clue types
 
-The first digit is greater than the second.
+The following types of clues can appear:
 
-### Rule 2
-
-The third digit is exactly twice the second.
-
-### Rule 3
-
-The fourth digit is smaller than the first.
-
-### Rule 4
-
-The sum of all four digits is **18**.
-
-### Rule 5
-
-Exactly **one digit is odd**.
-
-### Rule 6
-
-The code cannot contain `0`.
-
-The player must determine the only combination satisfying every constraint.
+- Position comparisons: A > B, A < B, A = B, A ≠ B
+- Parity: A is even, A is odd
+- Arithmetic: A + B = X, A - B = X, A = B × X
+- Aggregation: A + B + C = X, sum of all digits = X
+- Properties: no repeated digits, exactly N even digits
+- Value constraints: A > X, A < X
 
 ## Example
 
@@ -303,17 +291,17 @@ The challenge might produce:
 ```text
 CODE LOCK
 
-4-digit code
+Find the secret 4-digit code.
 
-• First digit > second digit
-• Third digit = second digit × 2
-• Fourth digit < first digit
-• Sum of digits = 18
-• Exactly one digit is odd
-• 0 is not allowed
+Clues:
+• The first digit is greater than the third digit.
+• The second digit is even.
+• The sum of the first and fourth digits is 11.
+• The third digit equals the second digit multiplied by 2.
+• No digit is repeated.
 ```
 
-The player must solve the constraints and submit the 4-digit code.
+The player must combine multiple clues to deduce the code.
 
 ---
 

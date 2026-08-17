@@ -39,8 +39,8 @@ def play_binary_core(timer):
     ║                      BINARY CORE                         ║
     ╠══════════════════════════════════════════════════════════╣
     ║                                                          ║
-    ║  Binary: {binary_str:<46} ║
-    ║  Key:    {key:<46} ║
+    ║  Binary: {binary_str:<46}  ║
+    ║  Key:    {key:<46}  ║
     ║                                                          ║
     ║  Steps:                                                  ║
     ║  1. Convert binary to decimal                            ║
