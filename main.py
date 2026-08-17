@@ -4,6 +4,7 @@ import os
 from timer import Timer
 from utils import move_to_row_col, clear_line, flush
 from wires import play_wires
+from binary_core import play_binary_core
 
 
 def clear_screen():
@@ -60,6 +61,18 @@ def play_module_wires(timer, fragments):
     timer._display()
 
 
+def play_module_binary_core(timer, fragments):
+    timer.resume()
+    clear_screen()
+    timer._display()
+    result = play_binary_core(timer)
+    timer.pause()
+    if result is not None:
+        fragments["BINARY"] = result
+    clear_screen()
+    timer._display()
+
+
 def main():
     timer = Timer(900)
     fragments = {"WIRES": None, "BINARY": None, "CODE": None}
@@ -79,6 +92,11 @@ def main():
             clear_screen()
             timer._display()
             play_module_wires(timer, fragments)
+        elif choice == "2":
+            timer.pause()
+            clear_screen()
+            timer._display()
+            play_module_binary_core(timer, fragments)
         elif choice == "4":
             timer.pause()
             clear_screen()
