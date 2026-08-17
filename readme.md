@@ -1,16 +1,16 @@
-# FAILSAFE 💣
+# DEFUSE
 
 A small terminal-based bomb defusal puzzle game written in Python.
 
-## 🎮 Concept
+##  Concept
 
 You have **15 minutes** to defuse a bomb.
 
 The bomb contains **3 modules**:
 
-1. 🔌 Wires
-2. 🔢 Binary Core
-3. 🔐 Code Lock
+1.  Wires
+2.  Binary Core
+3.  Code Lock
 
 Each module contains a puzzle.
 
@@ -27,14 +27,14 @@ Fragment 1 + Fragment 2 + Fragment 3
                   ↓
              BOMB PASSWORD
                   ↓
-              💚 DEFUSED
+               DEFUSED
 ```
 
 You must solve all three modules before you can enter the final password.
 
 ---
 
-## ⏱️ Timer
+##  Timer
 
 The bomb starts with:
 
@@ -51,7 +51,7 @@ If the timer reaches `00:00`, the bomb explodes.
 
 ---
 
-## 🔄 Leaving a module
+##  Leaving a module
 
 A module can be abandoned at any time.
 
@@ -63,14 +63,21 @@ Example:
 
 ```text
 Wires challenge:
-🔴 🔵 🟡 🟢 🔴
+🔴
+🔵
+🟡
+🟢
+🔴
 
 Player leaves.
 
 ↓
 
 New Wires challenge:
-🟢 🟡 🔵 🔴
+🟢
+🟡
+🔵
+🔴
 ```
 
 The player must start again from the beginning.
@@ -81,7 +88,7 @@ This makes leaving a module a strategic decision.
 
 ---
 
-# 🔌 Module 1: Wires
+#  Module 1: Wires
 
 ## Objective
 
@@ -174,7 +181,7 @@ Correct wire: 3
 
 ---
 
-# 🔢 Module 2: Binary Core
+#  Module 2: Binary Core
 
 ## Objective
 
@@ -256,7 +263,7 @@ The challenge is generated randomly, so the binary number and key change each ti
 
 ---
 
-# 🔐 Module 3: Code Lock
+#  Module 3: Code Lock
 
 ## Objective
 
@@ -305,7 +312,7 @@ The player must combine multiple clues to deduce the code.
 
 ---
 
-# 🔐 Final Password
+#  Final Password
 
 Each successful module produces a password fragment.
 
@@ -336,7 +343,7 @@ Password accepted.
 
 Time remaining: 04:37
 
-💚 BOMB DEFUSED
+ BOMB DEFUSED
 ```
 
 If incorrect:
@@ -351,7 +358,7 @@ The player can try again as long as there is time remaining.
 
 ---
 
-# 🏁 Victory
+#  Victory
 
 The player wins when:
 
@@ -368,7 +375,7 @@ The final screen should display:
 
 ---
 
-# 💥 Defeat
+#  Defeat
 
 The player loses when:
 
@@ -390,7 +397,7 @@ The bomb detonated.
 
 ---
 
-# 🛠️ Technology
+#  Technology
 
 Python 3
 
@@ -413,35 +420,25 @@ No external dependencies are required.
 
 ---
 
-# 📁 Initial project structure
+#  Project structure
 
 Start extremely small:
 
 ```text
-failsafe/
+defuse/
 │
-├── .venv/
-└── main.py
-```
-
-Do not split the project into multiple files until the first playable version works.
-
-Later, the project can become:
-
-```text
-failsafe/
-│
-├── main.py
-├── bomb.py
-├── wires.py
 ├── binary_core.py
+├── bomb.py
 ├── code_lock.py
-└── utils.py
+├── main.py
+├── timer.py
+├── utils.py
+└── wires.py
 ```
 
 ---
 
-# 🎯 Project Goal
+#  Project Goal
 
 The goal is not to build a huge game.
 
