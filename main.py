@@ -53,37 +53,34 @@ def show_menu(fragments):
 def play_module_wires(timer, fragments):
     timer.resume()
     clear_screen()
-    timer._display()
     result = play_wires(timer)
     timer.pause()
     if result is not None:
         fragments["WIRES"] = result
+    timer.display_row = 1
     clear_screen()
-    timer._display()
 
 
 def play_module_binary_core(timer, fragments):
     timer.resume()
     clear_screen()
-    timer._display()
     result = play_binary_core(timer)
     timer.pause()
     if result is not None:
         fragments["BINARY"] = result
+    timer.display_row = 1
     clear_screen()
-    timer._display()
 
 
 def play_module_code_lock(timer, fragments):
     timer.resume()
     clear_screen()
-    timer._display()
     result = play_code_lock(timer)
     timer.pause()
     if result is not None:
         fragments["CODE"] = result
+    timer.display_row = 1
     clear_screen()
-    timer._display()
 
 
 def main():
@@ -91,7 +88,6 @@ def main():
     fragments = {"WIRES": None, "BINARY": None, "CODE": None}
     clear_screen()
     timer.start()
-    timer._display()
 
     while True:
         show_menu(fragments)
@@ -103,22 +99,18 @@ def main():
         if choice == "1":
             timer.pause()
             clear_screen()
-            timer._display()
             play_module_wires(timer, fragments)
         elif choice == "2":
             timer.pause()
             clear_screen()
-            timer._display()
             play_module_binary_core(timer, fragments)
         elif choice == "3":
             timer.pause()
             clear_screen()
-            timer._display()
             play_module_code_lock(timer, fragments)
         elif choice == "4":
             timer.pause()
             clear_screen()
-            timer._display()
             all_done = all(fragments[t] for t in ["WIRES", "BINARY", "CODE"])
             move_to_row_col(3, 1)
             clear_line()
@@ -148,7 +140,6 @@ def main():
             flush()
             input()
             clear_screen()
-            timer._display()
         elif choice == "5":
             timer.stop()
             clear_screen()
