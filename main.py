@@ -119,10 +119,54 @@ def main():
             clear_line()
             if all_done:
                 password = fragments["WIRES"] + fragments["BINARY"] + fragments["CODE"]
-                sys.stdout.write(f"  Password: {password}\n")
+                sys.stdout.write(f"  Fragments: {password}\n")
                 move_to_row_col(5, 1)
                 clear_line()
-                sys.stdout.write("  (Not yet implemented)\n")
+                wrong_count = 0
+                while True:
+                    move_to_row_col(5, 1)
+                    clear_line()
+                    sys.stdout.write("  Enter the password: ")
+                    flush()
+                    answer = input().strip().upper()
+                    if answer == password:
+                        timer.stop()
+                        remaining = timer.time_left
+                        mins = remaining // 60
+                        secs = remaining % 60
+                        clear_screen()
+                        move_to_row_col(3, 1)
+                        clear_line()
+                        sys.stdout.write("  BOMB DEFUSED!\n")
+                        move_to_row_col(4, 1)
+                        clear_line()
+                        sys.stdout.write(f"  Time remaining: {mins:02d}:{secs:02d}\n")
+                        move_to_row_col(5, 1)
+                        clear_line()
+                        sys.stdout.write("  You saved the world.\n")
+                        move_to_row_col(7, 1)
+                        clear_line()
+                        sys.stdout.write("  Press Enter to exit...\n")
+                        flush()
+                        input()
+                        break
+                    else:
+                        wrong_count += 1
+                        move_to_row_col(6, 1)
+                        clear_line()
+                        if wrong_count >= 2:
+                            timer.stop()
+                            sys.stdout.write("  BOOM! Wrong password twice.\n")
+                            move_to_row_col(8, 1)
+                            clear_line()
+                            sys.stdout.write("  Press Enter to exit...\n")
+                            flush()
+                            input()
+                            break
+                        else:
+                            sys.stdout.write("  WRONG! 1 attempt left.\n")
+                if wrong_count >= 2 or answer == password:
+                    break
             else:
                 sys.stdout.write("  You need all 3 fragments first.\n")
                 move_to_row_col(5, 1)
@@ -134,12 +178,12 @@ def main():
                 move_to_row_col(7, 1)
                 clear_line()
                 sys.stdout.write(f"  Code:   {'??' if not fragments['CODE'] else fragments['CODE']}\n")
-            move_to_row_col(9, 1)
-            clear_line()
-            sys.stdout.write("  Press Enter to return...\n")
-            flush()
-            input()
-            clear_screen()
+                move_to_row_col(9, 1)
+                clear_line()
+                sys.stdout.write("  Press Enter to return...\n")
+                flush()
+                input()
+                clear_screen()
         elif choice == "5":
             timer.stop()
             clear_screen()
