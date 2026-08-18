@@ -217,9 +217,6 @@ def play_wires(timer):
         padding = BOX_WIDTH - len(line)
         print(f"    ║{line}{' ' * padding}║")
     print(f"    ╚{'═' * BOX_WIDTH}╝")
-
-    timer.display_row = len(rules) + 6
-    timer._display()
     print()
 
     for i, w in enumerate(wires):

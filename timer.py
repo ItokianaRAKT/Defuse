@@ -14,6 +14,7 @@ class Timer:
         self._stop_event = threading.Event()
         self._thread = threading.Thread(target=self._run, daemon=True)
         self.display_row = 1
+        self.display_col = 120
 
     def start(self):
         self._running = True
@@ -50,7 +51,7 @@ class Timer:
         seconds = self.time_left % 60
         timer_str = f"  TIME: {minutes:02d}:{seconds:02d}  "
         save_cursor()
-        move_to_row_col(self.display_row, 65)
+        move_to_row_col(self.display_row, self.display_col)
         clear_line()
         sys.stdout.write(timer_str)
         flush()
