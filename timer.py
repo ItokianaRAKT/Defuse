@@ -43,7 +43,29 @@ class Timer:
                 time.sleep(0.5)
         if self.time_left <= 0:
             self._display()
-            sys.stdout.write("\n\n  BOOM! Time's up!\n\n")
+            sys.stdout.write("""
+
+  ╔══════════════════════════════════════════════╗
+  ║           LETTRE DE MISE EN DEMEURE          ║
+  ╠══════════════════════════════════════════════╣
+  ║                                              ║
+  ║  Monsieur le Joueur,                         ║
+  ║                                              ║
+  ║  Par la présente, la Bombe prend acte de     ║
+  ║  votre incapacité à respecter le délai qui   ║
+  ║  vous a été imparti.                         ║
+  ║                                              ║
+  ║  En conséquence, elle se réserve le droit    ║
+  ║  de procéder à l'imminence de son            ║
+  ║  autodestruction.                            ║
+  ║                                              ║
+  ║  Veuillez agréer, Monsieur, l'expression     ║
+  ║  de mes sentiments les plus explosifs.       ║
+  ║                                              ║
+  ║  Accusé de réception :                       ║
+  ╚══════════════════════════════════════════════╝
+
+""")
             sys.stdout.flush()
 
     def _display(self):
